@@ -27,14 +27,6 @@ function setup() {
 	groundSprite=createSprite(width/2, height-35, width,10);
 	groundSprite.shapeColor=color(255)
 
-	//To move the helicopter left and right with the arrow keys
-		if(keyCode === LEFT_ARROW){
-			helicopterSprite.x = helicopterSprite.x-20
-		}
-
-		if(keyCode === RIGHT_ARROW){
-			helicopterSprite.x = helicopterSprite.x+20
-		}
 
 	engine = Engine.create();
 	world = engine.world;
@@ -42,14 +34,6 @@ function setup() {
 	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
 	World.add(world, packageBody);
 	
-		Matter.Body.translate(packageBody,{x:-20, y:0})
-
-		if(keyCode === DOWN_ARROW){
-			Matter.Body.isStatic(packageBody,false);
-		}
-	
-		Matter.Body.translate(body, translation);
-
 
 	//Create a Ground
 	ground = Bodies.rectangle(width/2, 650, width, 10 , {isStatic:true} );
@@ -77,7 +61,7 @@ function setup() {
  	boxRightBody = Bodies.rectangle(boxPosition+200-20 , boxY, 20,100 , {isStatic:true} );
  	World.add(world, boxRightBody);
 
-	
+
 	Engine.run(engine);
   
 }
@@ -87,8 +71,8 @@ function draw() {
   rectMode(CENTER);
   background(0);
  
-  packageSprite.x = packageBody.position.x 
-  packageSprite.y = packageBody.position.y 
+  packageSprite.x= packageBody.position.x 
+  packageSprite.y= packageBody.position.y 
 
   
   drawSprites();
@@ -96,3 +80,23 @@ function draw() {
   
  
 }
+
+function keyPressed() {
+  if (keyCode === LEFT_ARROW) {
+
+    helicopterSprite.x=helicopterSprite.x-20;    
+    translation={x:-20,y:0}
+    Matter.Body.translate(packageBody, translation)
+
+
+  } else if (keyCode === RIGHT_ARROW) {
+    helicopterSprite.x=helicopterSprite.x+20;
+    translation={x:20,y:0}
+    Matter.Body.translate(packageBody, translation)
+  }
+  else if (keyCode === DOWN_ARROW) {
+    Matter.Body.setStatic(packageBody,false);
+    
+  }
+}
+
